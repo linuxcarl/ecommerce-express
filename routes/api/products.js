@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const productMocks = require('../../utils/mocks/products');
 const ProductsService = require('../../services/products');
 
 const productService = new ProductsService();
@@ -57,6 +56,22 @@ router.put('/:productId', async (req, res, next) => {
         next(error);
     }
 })
+
+
+router.patch('/:productId', async (req, res, next) => {
+    const { productId } = req.params;
+    const { formData: product } = req.params;
+    try {
+        const product = await productService.updateProduct({ productId, formData });
+        res.status(200).json({
+            data: product[0],
+            message: 'product patched'
+        })
+    } catch (error) {
+        next(error);
+    }
+})
+
 
 router.delete('/:productId', async (req, res, next) => {
     const { productId } = req.params;
