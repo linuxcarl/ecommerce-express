@@ -10,7 +10,7 @@ const {
     errorHandler,
     wrapErrors
 } = require('./utils/middlewares/errorsHandlers')
-
+const authApiRouter = require('./routes/api/auth')
 const isRequestAjaxOrApi = require('./utils/isRequestAjaxOrApi');
 //app
 const app = express();
@@ -31,7 +31,7 @@ app.set("view engine", "pug");
 //routes
 app.use('/api/products', productsApiRouter);
 app.use('/products', productsRouter);
-
+app.use('/api/auth', authApiRouter);
 //redirect
 app.get((req, res) =>{
     res.redirect('/products');
