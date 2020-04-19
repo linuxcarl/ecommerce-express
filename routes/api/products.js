@@ -8,6 +8,8 @@ const {
     createProductSchema,
     updateProductSchema } = require('../../utils/schema/products');
 require("../../utils/auth/strategies/jwt");
+const cacheResponse = require('../../utils/cacheResponse');
+const { FIVE_MINUTES_IN_SECONDS, SIXTY_MINUTES_IN_SECONDS } = require('../../utils/time')
 
 function productsApi(app) {
 
@@ -16,7 +18,7 @@ function productsApi(app) {
     const productService = new ProductsService();
 
     router.get('/', async (req, res, next) => {
-
+        cacheResponse(res, FIVE_MINUTES_IN_SECONDS)
         const { tags } = req.query;
         try {
             // throw new Error('Esto chingo a 20 desde la API');// para probar los middlewares que creamos
@@ -32,6 +34,7 @@ function productsApi(app) {
     })
 
     router.get('/:productId', async (req, res, next) => {
+        cacheResponse(res, SIXTY_MINUTES_IN_SECONDS)
         const { productId } = req.params;
         try {
             const product = await productService.getProduct({ productId });

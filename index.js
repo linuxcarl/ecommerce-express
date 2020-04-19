@@ -5,6 +5,7 @@ const productsRouter = require('./routes/products');
 const productsApiRouter =  require('./routes/api/products')
 const boom = require("@hapi/boom");
 const debug =  require("debug")('app:server')
+const helmet = require('helmet');
 const {
     logErrors,
     clientErrorHandler,
@@ -19,6 +20,7 @@ const app = express();
 //middlewares
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(helmet());
 // parse application/json
 app.use(bodyParser.json())
 
