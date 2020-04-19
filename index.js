@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const productsRouter = require('./routes/products');
 const productsApiRouter =  require('./routes/api/products')
 const boom = require("@hapi/boom");
+const debug =  require("debug")('app:server')
 const {
     logErrors,
     clientErrorHandler,
@@ -29,7 +30,8 @@ app.set("views", path.join(__dirname, 'views'));
 app.set("view engine", "pug");
 
 //routes
-app.use('/api/products', productsApiRouter);
+//app.use('/api/products', productsApiRouter);
+productsApiRouter(app);
 app.use('/products', productsRouter);
 app.use('/api/auth', authApiRouter);
 //redirect
@@ -56,5 +58,5 @@ app.use(wrapErrors);
 
 
 const server = app.listen(3002, () => {
-    console.log(`Server en http://localhost:${server.address().port}`);
+    debug(`Server en http://localhost:${server.address().port}`);
 })

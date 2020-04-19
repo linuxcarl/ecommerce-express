@@ -9,7 +9,6 @@ function validate(data, schema) {
 function validationHandler(schema, check = "body") {
     return function (req, res, next) {
         const error = Joi.object(schema).validate(req[check]);
-        console.log(error);
         error ? next(boom.badRequest(error)) : next();
     };
 }
